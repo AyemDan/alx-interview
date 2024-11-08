@@ -16,7 +16,6 @@ Functions:
 """
 
 
-
 def factorial(num: int) -> int:
     """
     Computes the factorial of a number.
