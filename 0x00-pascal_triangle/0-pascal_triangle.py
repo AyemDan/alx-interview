@@ -15,7 +15,6 @@ Functions:
         Generates the first n rows of Pascal's Triangle.
 """
 
-from typing import List
 
 
 def factorial(num: int) -> int:
@@ -48,7 +47,7 @@ def combination(n: int, r: int) -> int:
     return factorial(n) // (factorial(r) * factorial(n - r))
 
 
-def pascal_triangle(n: int) -> List[List[int]]:
+def pascal_triangle(n: int):
     """
     Generates the first n rows of Pascal's Triangle.
 
