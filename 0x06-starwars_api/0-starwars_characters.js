@@ -2,39 +2,50 @@
 
 const request = require('request');
 
-async function getUsers () {
-  try {
-    const argValue = process.argv[2];
-    const intValue = parseInt(argValue, 10);
+// Get the Movie ID from the command-line arguments
+const movieId = process.argv[2];
 
-    if (isNaN(intValue)) {
-      console.error('Please provide a valid integer as the argument');
-      return;
-    }
-
-    request(`https://swapi-api.alx-tools.com/api/films/${intValue}/`, function (error, response, body) {
-      if (error) {
-        console.error('Error with film request:', error);
-        return;
-      }
-
-      const data = JSON.parse(body);
-      const characters = data.characters;
-
-      for (let i = 0; i < characters.length; i++) {
-        request(characters[i], function (error, response, body) {
-          if (error) {
-            console.error('Error with character request:', error);
-            return;
-          }
-
-          const data = JSON.parse(body);
-          console.log(data.name);
-        });
-      }
-    });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+if (!movieId) {
+  console.error('Usage: ./0-starwars_characters.js <Movie ID>');
+  process.exit(1);
 }
-getUsers();
+
+// Star Wars API URL for the specified Movie ID
+const filmUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
+
+// Fetch the film data
+request(filmUrl, (error, response, body) => {
+  if (error) {
+    console.error('Error fetching film data:', error);
+    return;
+  }
+
+  if (response.statusCode !== 200) {
+    console.error('Error: Invalid Movie ID or API issue');
+    return;
+  }
+
+  try {
+    const filmData = JSON.parse(body);
+    const characterUrls = filmData.characters;
+
+    // Fetch and display each character in the same order as the API
+    characterUrls.forEach((url) => {
+      request(url, (error, response, body) => {
+        if (error) {
+          console.error('Error fetching character data:', error);
+          return;
+        }
+
+        try {
+          const characterData = JSON.parse(body);
+          console.log(characterData.name);
+        } catch (parseError) {
+          console.error('Error parsing character data:', parseError);
+        }
+      });
+    });
+  } catch (parseError) {
+    console.error('Error parsing film data:', parseError);
+  }
+});
