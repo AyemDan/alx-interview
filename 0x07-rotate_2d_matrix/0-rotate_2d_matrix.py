@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+Matrix rotation
+"""
 def rotate_2d_matrix(matrix):
     """
     Rotates a 2D matrix 90 degrees clockwise in place.
@@ -18,29 +21,6 @@ def rotate_2d_matrix(matrix):
     2. Reverse each row:
        - After transposing, reversing each row gives the matrix a 90-degree
          clockwise rotation.
-
-    Example:
-    --------
-    Input Matrix:
-    [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-    ]
-
-    After Transposing:
-    [
-        [1, 4, 7],
-        [2, 5, 8],
-        [3, 6, 9]
-    ]
-
-    After Reversing Rows:
-    [
-        [7, 4, 1],
-        [8, 5, 2],
-        [9, 6, 3]
-    ]
 
     The function modifies the matrix in place and does not return anything.
     """
